@@ -1,11 +1,15 @@
+import Menu from './Menu';
+import Footer from './Footer';
 
 const Layout = ({children}) => {
 
     return(
         <>
-            <p>Navbar</p>
-            {children}
-            <p>Footer</p>
+            <Menu />
+            <div className="min-vh-100">
+                {children}
+            </div>
+            <Footer />
         </>
     )
 
