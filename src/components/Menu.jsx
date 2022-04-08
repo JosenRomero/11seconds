@@ -17,6 +17,7 @@ const Menu = () => {
                     <Nav className="ms-auto">
                         <Nav.Link href="/" >Home</Nav.Link>
                         <Nav.Link href="/videos" >Videos</Nav.Link>
+                        <Nav.Link href="/signup" >Sign Up</Nav.Link>
                         {
                             console.log(user.username, authorized)
                         }
