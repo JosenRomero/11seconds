@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Container, Form, Button, Row, Card, Col } from 'react-bootstrap';
+import { useUser } from '../hooks/useUser';
 
 const SignUpPage = () => {
 
@@ -10,9 +11,11 @@ const SignUpPage = () => {
         password: ""
     });
 
+    const { registerUser } = useUser();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(user);
+        registerUser(user);
         setValidated(true); // show Form.Control.Feedback
     }
 

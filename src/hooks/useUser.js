@@ -1,25 +1,27 @@
-import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { addUserAction } from '../redux/actions/Actions';
+import { useNavigate } from 'react-router-dom';
+import { signup } from '../services/AuthService';
 
 export const useUser = () => {
 
-    const [authorized, setAuthorized] = useState(false);
-
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-
-        dispatch(addUserAction({
-            username: "jose romero"
-        }));
-
-        setAuthorized(true)
-
-    }, [dispatch]);
+    const registerUser = async ({email, password}) => {
+        try {
+            const { user } = await signup({email, password});
+            if(user) {
+                dispatch(addUserAction({email: user.email})); // add User to the state
+                navigate('/videos');
+            }
+        } catch(err) {
+            console.log(err);
+        }
+    }
 
     return {
-        authorized
+        registerUser
     }
 
 }

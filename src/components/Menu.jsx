@@ -1,10 +1,7 @@
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { useUser } from '../hooks/useUser';
 
 const Menu = () => {
-
-    const { authorized } = useUser();
 
     const user = useSelector((state) => state.user); // reducers/index.js
 
@@ -19,7 +16,7 @@ const Menu = () => {
                         <Nav.Link href="/videos" >Videos</Nav.Link>
                         <Nav.Link href="/signup" >Sign Up</Nav.Link>
                         {
-                            console.log(user.username, authorized)
+                            console.log("menu", user)
                         }
                     </Nav>
                 </Navbar.Collapse>
