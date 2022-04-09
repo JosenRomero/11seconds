@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Container, Form, Button, Row, Card, Col } from 'react-bootstrap';
 import { useUser } from '../hooks/useUser';
 
-const SignUpPage = () => {
+const SignUpOrLogInPage = ({title}) => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
 
@@ -15,7 +15,7 @@ const SignUpPage = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        registerUser(user);
+        (title === "Sign Up") ? registerUser(user) : console.log(user)
         setValidated(true); // show Form.Control.Feedback
     }
 
@@ -35,7 +35,7 @@ const SignUpPage = () => {
                     <Card>
                         <Card.Body>
 
-                            <Card.Title>Sign Up</Card.Title>
+                            <Card.Title>{title}</Card.Title>
 
                             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                                 <Form.Group className="mb-3" controlId="email">
@@ -78,4 +78,4 @@ const SignUpPage = () => {
 
 }
 
-export default SignUpPage
+export default SignUpOrLogInPage
