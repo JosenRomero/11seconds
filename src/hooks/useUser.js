@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { addUserAction } from '../redux/actions/Actions';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../services/AuthService';
+import { signup, login } from '../services/AuthService';
 
 export const useUser = () => {
 
@@ -20,8 +20,21 @@ export const useUser = () => {
         }
     }
 
+    const loginUser = async ({email, password}) => {
+        try {
+            const { user } = await login({email, password});
+            if(user) {
+                dispatch(addUserAction({email: user.email})); // add User to the state
+                navigate('/videos');
+            }
+        } catch(err) {
+            console.log(err);
+        }
+    }
+
     return {
-        registerUser
+        registerUser,
+        loginUser
     }
 
 }

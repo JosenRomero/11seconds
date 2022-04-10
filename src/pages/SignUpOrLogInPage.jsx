@@ -11,11 +11,11 @@ const SignUpOrLogInPage = ({title}) => {
         password: ""
     });
 
-    const { registerUser } = useUser();
+    const { registerUser, loginUser } = useUser();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        (title === "Sign Up") ? registerUser(user) : console.log(user)
+        (title === "Sign Up") ? registerUser(user) : loginUser(user)
         setValidated(true); // show Form.Control.Feedback
     }
 
