@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { addUserAction } from '../redux/actions/Actions';
 import { useNavigate } from 'react-router-dom';
-import { signup, login } from '../services/AuthService';
+import { signup, login, logout } from '../services/AuthService';
 
 export const useUser = () => {
 
@@ -32,9 +32,15 @@ export const useUser = () => {
         }
     }
 
+    const logoutUser = async () => {
+        logout();
+        navigate('/login');
+    }
+
     return {
         registerUser,
-        loginUser
+        loginUser,
+        logoutUser
     }
 
 }
