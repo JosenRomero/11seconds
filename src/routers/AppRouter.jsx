@@ -3,6 +3,8 @@ import Layout from '../components/Layout';
 import HomePage from '../pages/HomePage';
 import SignUpOrLogInPage from '../pages/SignUpOrLogInPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import PublicRoute from './PublicRoute';
+import PrivateRoute from './PrivateRoute';
 
 const AppRouter = () => {
 
@@ -11,9 +13,27 @@ const AppRouter = () => {
             <Layout>
                 <Routes>
 
-                    <Route exact path="/" element={<HomePage />} />
-                    <Route path="/signup" element={<SignUpOrLogInPage title="Sign Up" />} />
-                    <Route path="/login" element={<SignUpOrLogInPage title="Log In" />} />
+                    <Route exact path="/" 
+                        element={
+                            <PrivateRoute>
+                                <HomePage />
+                            </PrivateRoute>
+                        } 
+                    />
+                    <Route path="/signup" 
+                        element={
+                            <PublicRoute>
+                                <SignUpOrLogInPage title="Sign Up" />
+                            </PublicRoute>
+                        } 
+                    />
+                    <Route path="/login" 
+                        element={
+                            <PublicRoute>
+                                <SignUpOrLogInPage title="Log In" />
+                            </PublicRoute>
+                        } 
+                    />
 
                     <Route path="*" element={<NotFoundPage />} />
 

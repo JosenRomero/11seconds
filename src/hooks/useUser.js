@@ -34,7 +34,7 @@ export const useUser = () => {
 
     const logoutUser = async () => {
         logout();
-        navigate('/login');
+        dispatch(addUserAction({}));
     }
 
     return {
