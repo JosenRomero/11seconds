@@ -16,13 +16,18 @@ const Menu = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        <Nav.Link as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link as={Link} to="/videos">Videos</Nav.Link>
-                        <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
-                        <Nav.Link as={Link} to="/login">Log In</Nav.Link>
-                        <Nav.Link onClick={ () => logoutUser() }>Log Out</Nav.Link>
-                        {
-                            console.log("menu", user)
+                        { user.email && 
+                            <>
+                                <Nav.Link as={Link} to="/">Home</Nav.Link>
+                                <Nav.Link as={Link} to="/videos">Videos</Nav.Link>
+                                <Nav.Link onClick={ () => logoutUser() }>Log Out</Nav.Link>
+                            </>
+                        }
+                        { !user.email && 
+                            <>
+                                <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
+                                <Nav.Link as={Link} to="/login">Log In</Nav.Link>
+                            </>
                         }
                     </Nav>
                 </Navbar.Collapse>
