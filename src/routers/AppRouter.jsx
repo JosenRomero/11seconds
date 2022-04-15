@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from '../components/Layout';
 import HomePage from '../pages/HomePage';
+import VideosPage from '../pages/VideosPage';
 import SignUpOrLogInPage from '../pages/SignUpOrLogInPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import PublicRoute from './PublicRoute';
@@ -19,6 +20,13 @@ const AppRouter = () => {
                                 <HomePage />
                             </PrivateRoute>
                         } 
+                    />
+                    <Route exact path="/videos"
+                        element={
+                            <PrivateRoute>
+                                <VideosPage />
+                            </PrivateRoute>
+                        }
                     />
                     <Route path="/signup" 
                         element={
