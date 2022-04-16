@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from '../components/Layout';
 import HomePage from '../pages/HomePage';
 import VideosPage from '../pages/VideosPage';
+import UploadVideoPage from '../pages/UploadVideoPage';
 import SignUpOrLogInPage from '../pages/SignUpOrLogInPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import PublicRoute from './PublicRoute';
@@ -25,6 +26,13 @@ const AppRouter = () => {
                         element={
                             <PrivateRoute>
                                 <VideosPage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route exact path="/upload"
+                        element={
+                            <PrivateRoute>
+                                <UploadVideoPage />
                             </PrivateRoute>
                         }
                     />

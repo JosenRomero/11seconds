@@ -20,6 +20,7 @@ const Menu = () => {
                             <>
                                 <Nav.Link as={Link} to="/">Home</Nav.Link>
                                 <Nav.Link as={Link} to="/videos">Videos</Nav.Link>
+                                <Nav.Link as={Link} to="/upload">Upload</Nav.Link>
                                 <Nav.Link onClick={ () => logoutUser() }>Log Out</Nav.Link>
                             </>
                         }
