@@ -1,25 +1,28 @@
 import { useState } from 'react';
 import { Container, Card, Col, Row, Form, Button } from 'react-bootstrap';
+import { useVideo } from '../hooks/useVideo';
 
 const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
 
+    const { uploadVideo } = useVideo();
+
     const [video, setVideo] = useState({
         title: "",
-        file: ""
+        file: null
     });
 
     const handleAdd = (event) => {
         event.preventDefault();
-        console.log(video)
+        uploadVideo(video);
         setValidated(true); // show Form.Control.Feedback
     }
 
-    const handleChange = ({ target: { id, value } }) => {
+    const handleChange = ({ target: { id, value, files } }) => {
         setVideo({
             ...video,
-            [id]: value
+            [id]: (files !== null) ? files[0] : value
         })
     }
 
@@ -51,6 +54,7 @@ const UploadVideoPage = () => {
                                     <Form.Control
                                         type="file"
                                         onChange={handleChange}
+                                        accept="video/mp4,video/x-m4v,video/*"
                                         required
                                     /> {/* id="file" */}
                                     <Form.Control.Feedback type="invalid">
