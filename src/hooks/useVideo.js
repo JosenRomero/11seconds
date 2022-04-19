@@ -1,9 +1,16 @@
+import { useState } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase';
 
 export const useVideo = () => {
 
-    const uploadVideo = ({ title, file }) => {
+    const [loading, setLoading] = useState(false);
+    const [progressBar, setProgressBar] = useState(5);
+    const [videoUrl, setVideoUrl] = useState(null);
+
+    const uploadVideo = (file) => {
+
+        setLoading(true);
 
         const dateNow = Date.now()
 
@@ -16,7 +23,7 @@ export const useVideo = () => {
                 // Observe state change events such as progress, pause, and resume
                 // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
+                setProgressBar(progress);
             },
             (error) => {
                 // Handle unsuccessful uploads
@@ -25,7 +32,8 @@ export const useVideo = () => {
             () => {
                 // Handle successful uploads on complete
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
+                    setVideoUrl(downloadURL);
+                    setLoading(false);
                 });
             }
         );
@@ -33,7 +41,10 @@ export const useVideo = () => {
     }
 
     return {
-        uploadVideo
+        uploadVideo,
+        loading,
+        progressBar,
+        videoUrl
     }
 
 }

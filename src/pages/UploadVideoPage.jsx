@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Container, Card, Col, Row, Form, Button } from 'react-bootstrap';
+import { Container, Card, Col, Row, Form, Button, ProgressBar } from 'react-bootstrap';
 import { useVideo } from '../hooks/useVideo';
 
 const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
 
-    const { uploadVideo } = useVideo();
+    const { uploadVideo, loading, progressBar, videoUrl } = useVideo();
 
     const [video, setVideo] = useState({
         title: "",
@@ -15,11 +15,12 @@ const UploadVideoPage = () => {
 
     const handleAdd = (event) => {
         event.preventDefault();
-        uploadVideo(video);
+        console.log(video);
         setValidated(true); // show Form.Control.Feedback
     }
 
     const handleChange = ({ target: { id, value, files } }) => {
+        if (files !== null) uploadVideo(files[0]);
         setVideo({
             ...video,
             [id]: (files !== null) ? files[0] : value
@@ -49,18 +50,33 @@ const UploadVideoPage = () => {
                                         Title is a required field.
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group className="mb-3" controlId="file">
-                                    <Form.Label>Choose file</Form.Label> {/* for="file" */}
-                                    <Form.Control
-                                        type="file"
-                                        onChange={handleChange}
-                                        accept="video/mp4,video/x-m4v,video/*"
-                                        required
-                                    /> {/* id="file" */}
-                                    <Form.Control.Feedback type="invalid">
-                                        File is a required field.
-                                    </Form.Control.Feedback>
-                                </Form.Group>
+
+                                {!videoUrl ? (
+                                    <>
+                                        {loading ? (
+                                            <>
+                                                <p className="mb-2 text-center">Uploading Your Video</p>
+                                                <ProgressBar animated now={progressBar} className="mb-3" />
+                                            </>
+                                        ) : (
+                                            <Form.Group className="mb-3" controlId="file">
+                                                <Form.Label>Choose file</Form.Label> {/* for="file" */}
+                                                <Form.Control
+                                                    type="file"
+                                                    onChange={handleChange}
+                                                    accept="video/mp4,video/x-m4v,video/*"
+                                                    required
+                                                /> {/* id="file" */}
+                                                <Form.Control.Feedback type="invalid">
+                                                    File is a required field.
+                                                </Form.Control.Feedback>
+                                            </Form.Group>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>video</>
+                                )}
+
                                 <Button variant="primary" type="submit">
                                     Submit
                                 </Button>
