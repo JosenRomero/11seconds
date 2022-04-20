@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../firebase';
 
 export const useVideo = () => {
@@ -40,8 +40,20 @@ export const useVideo = () => {
 
     }
 
+    const deleteVideo = () => {
+
+        const deleteRef = ref(storage, videoUrl);
+
+        deleteObject(deleteRef)
+            .then(() => {
+                setVideoUrl(null);
+            });
+
+    }
+
     return {
         uploadVideo,
+        deleteVideo,
         loading,
         progressBar,
         videoUrl

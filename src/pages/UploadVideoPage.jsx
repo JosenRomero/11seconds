@@ -6,7 +6,7 @@ const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
 
-    const { uploadVideo, loading, progressBar, videoUrl } = useVideo();
+    const { uploadVideo, deleteVideo, loading, progressBar, videoUrl } = useVideo();
 
     const [video, setVideo] = useState({
         title: "",
@@ -74,7 +74,10 @@ const UploadVideoPage = () => {
                                         )}
                                     </>
                                 ) : (
-                                    <>video</>
+                                    <div className="text-center mb-3">
+                                        <video src={videoUrl} width="90%" height="90%" controls />
+                                        <Button onClick={() => deleteVideo()} variant="danger">Delete Video</Button>
+                                    </div>
                                 )}
 
                                 <Button variant="primary" type="submit">
