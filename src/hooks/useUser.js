@@ -24,7 +24,7 @@ export const useUser = () => {
         try {
             const { user } = await login({email, password});
             if(user) {
-                dispatch(addUserAction({email: user.email})); // add User to the state
+                dispatch(addUserAction({email: user.email, uid: user.uid})); // add User to the state
                 navigate('/videos');
             }
         } catch(err) {

@@ -6,25 +6,14 @@ const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
 
-    const { uploadVideo, deleteVideo, loading, progressBar, videoUrl } = useVideo();
+    const { saveVideo, uploadVideo, deleteVideo, loading, progressBar, videoUrl } = useVideo();
 
-    const [video, setVideo] = useState({
-        title: "",
-        file: null
-    });
+    const [videoTitle, setVideoTitle] = useState("");
 
     const handleAdd = (event) => {
         event.preventDefault();
-        console.log(video);
+        saveVideo({videoTitle, videoUrl});
         setValidated(true); // show Form.Control.Feedback
-    }
-
-    const handleChange = ({ target: { id, value, files } }) => {
-        if (files !== null) uploadVideo(files[0]);
-        setVideo({
-            ...video,
-            [id]: (files !== null) ? files[0] : value
-        })
     }
 
     return (
@@ -43,7 +32,7 @@ const UploadVideoPage = () => {
                                     <Form.Control
                                         type="text"
                                         placeholder="Enter title"
-                                        onChange={handleChange}
+                                        onChange={(e) => setVideoTitle(e.target.value)}
                                         required
                                     /> {/* id="title" */}
                                     <Form.Control.Feedback type="invalid">
@@ -63,7 +52,7 @@ const UploadVideoPage = () => {
                                                 <Form.Label>Choose file</Form.Label> {/* for="file" */}
                                                 <Form.Control
                                                     type="file"
-                                                    onChange={handleChange}
+                                                    onChange={(e) => uploadVideo(e.target.files[0])}
                                                     accept="video/mp4,video/x-m4v,video/*"
                                                     required
                                                 /> {/* id="file" */}
@@ -81,7 +70,7 @@ const UploadVideoPage = () => {
                                 )}
 
                                 <Button variant="primary" type="submit">
-                                    Submit
+                                    Publish
                                 </Button>
                             </Form>
 
