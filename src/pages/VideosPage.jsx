@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useVideo } from '../hooks/useVideo';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import Loading from '../components/Loading';
@@ -33,13 +34,15 @@ const VideosPage = () => {
 
                 {videos && videos.map((video, i) => {
                     return (
-                        <Col>
+                        <Col key={i}>
                             <Card>
                                 <Card.Body>
                                     <div>
                                         <video src={video.videoUrl} width="100%" height="100%" controls />
                                     </div>
-                                    <Card.Title>{video.title}</Card.Title>
+                                    <Link to={`/video/${video.id}`}>
+                                        <Card.Title>{video.title}</Card.Title>
+                                    </Link>
                                 </Card.Body>
                             </Card>
                         </Col>

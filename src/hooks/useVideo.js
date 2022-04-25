@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
-import { doc, setDoc, collection, query, getDocs, orderBy } from "firebase/firestore";
+import { addDoc, collection, query, getDocs, orderBy } from "firebase/firestore";
 import { storage, firebaseDB } from '../firebase';
 
 export const useVideo = () => {
@@ -64,15 +64,14 @@ export const useVideo = () => {
 
         try {
 
-            const dateNow = Date.now()
-
             const data = {
                 userId: user.uid,
                 title: videoTitle,
                 videoUrl
             }
 
-            await setDoc(doc(firebaseDB, "videos", `${dateNow}`), data);
+            // with a generated id
+            await addDoc(collection(firebaseDB, "videos"), data);
 
             navigate('/videos');
 
@@ -87,7 +86,9 @@ export const useVideo = () => {
         try {
             const q = query(collection(firebaseDB, "videos"), orderBy("title", "desc"));
             const res = await getDocs(q);
-            const videos = res.docs.map((doc) => doc.data())
+            const videos = res.docs.map((doc) => { 
+                return { ...doc.data(), id: doc.id } 
+            })
             return videos
         } catch(error) {
             console.log(error);
