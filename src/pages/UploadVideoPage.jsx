@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { Container, Card, Col, Row, Form, Button, ProgressBar } from 'react-bootstrap';
 import { useVideo } from '../hooks/useVideo';
+import { useData } from '../hooks/useData';
 
 const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
 
-    const { saveVideo, uploadVideo, deleteVideo, loading, progressBar, videoUrl } = useVideo();
+    const { uploadVideo, deleteVideo, loading, progressBar, videoUrl } = useVideo();
+
+    const { saveData } = useData();
 
     const [videoTitle, setVideoTitle] = useState("");
 
     const handleAdd = (event) => {
         event.preventDefault();
-        saveVideo({videoTitle, videoUrl});
+        saveData({videoTitle, videoUrl});
         setValidated(true); // show Form.Control.Feedback
     }
 

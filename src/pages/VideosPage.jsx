@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useVideo } from '../hooks/useVideo';
+import { useData } from '../hooks/useData';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import Loading from '../components/Loading';
 
@@ -8,7 +8,7 @@ const VideosPage = () => {
 
     const [videos, setVideos] = useState(null);
 
-    const { getAllVideos } = useVideo();
+    const { getAllData } = useData();
 
     const [loading, setLoading] = useState(false);
 
@@ -17,14 +17,14 @@ const VideosPage = () => {
         setLoading(true);
 
         if (!videos) {
-            getAllVideos()
+            getAllData()
                 .then((data) => {
                     setVideos(data);
                     setLoading(false);
                 });
         }
 
-    }, [videos, getAllVideos]);
+    }, [videos, getAllData]);
 
     if(!videos && loading) return <Loading />
 
