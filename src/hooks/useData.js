@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { addDoc, collection, query, getDocs, orderBy } from "firebase/firestore";
+import { addDoc, collection, query, getDocs, orderBy, doc, getDoc } from "firebase/firestore";
 import { firebaseDB } from '../firebase';
 
 export const useData = () => {
@@ -45,9 +45,17 @@ export const useData = () => {
 
     }
 
+    const getOneData = async (videoId) => {
+        const videoRef = doc(firebaseDB, "videos", videoId);
+        const videoSnap = await getDoc(videoRef);
+        if(videoSnap.exists()) return videoSnap.data();
+        return Promise.reject(new Error("Video not found"))
+    }
+
     return {
         saveData,
-        getAllData
+        getAllData,
+        getOneData
     }
 
 }
