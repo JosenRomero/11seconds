@@ -4,6 +4,7 @@ import {
     signOut
 } from 'firebase/auth';
 import { auth } from '../firebase';
+import errorMessageHandler from '../utils/errorMessageHandler';
 
 export const signup = async ({email, password}) => {
     try {
@@ -18,8 +19,9 @@ export const login = async ({email, password}) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         return userCredential
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        const message = errorMessageHandler(error.code);
+        return Promise.reject({message});
     }
 }
 
