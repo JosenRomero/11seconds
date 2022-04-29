@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { addUserAction } from '../redux/actions/Actions';
+import { addUserAction, addErrorMessageAction } from '../redux/actions/Actions';
 import { useNavigate } from 'react-router-dom';
 import { signup, login, logout } from '../services/AuthService';
 
@@ -27,8 +27,8 @@ export const useUser = () => {
                 dispatch(addUserAction({email: user.email, uid: user.uid})); // add User to the state
                 navigate('/videos');
             }
-        } catch(err) {
-            console.log(err);
+        } catch(error) {
+            dispatch(addErrorMessageAction(error.message));
         }
     }
 
