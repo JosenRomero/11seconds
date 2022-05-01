@@ -1,10 +1,16 @@
 import { useState } from 'react';
 import { Container, Form, Button, Row, Card, Col } from 'react-bootstrap';
 import { useUser } from '../hooks/useUser';
+import validationEmailAndPassword from '../utils/validationEmailAndPassword';
 
 const SignUpOrLogInPage = ({title}) => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
+
+    const [errors, setErrors] = useState({
+        emailError: "",
+        passwordError: ""
+    });
 
     const [user, setUser] = useState({
         email: "",
@@ -13,10 +19,19 @@ const SignUpOrLogInPage = ({title}) => {
 
     const { registerUser, loginUser } = useUser();
 
+    const validateEmailAndPassword = () => {
+        let { emailError, passwordError } = validationEmailAndPassword(user.email, user.password);
+        setErrors({ emailError, passwordError });
+        return (emailError === "" && passwordError === "") ? true : false
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        (title === "Sign Up") ? registerUser(user) : loginUser(user)
-        setValidated(true); // show Form.Control.Feedback
+        let validate = validateEmailAndPassword()
+        setValidated(validate); // show Form.Control.Feedback
+        if(validate) {
+            (title === "Sign Up") ? registerUser(user) : loginUser(user)
+        }
     }
 
     const handleChange = ({target: {id, value}}) => {
@@ -44,10 +59,11 @@ const SignUpOrLogInPage = ({title}) => {
                                         type="email"
                                         placeholder="Enter email"
                                         onChange={handleChange}
+                                        isInvalid={!!errors.emailError}
                                         required
                                     /> {/* id="email" */}
                                     <Form.Control.Feedback type="invalid">
-                                        Email address is a required field.
+                                        {errors.emailError}
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="password">
@@ -56,10 +72,11 @@ const SignUpOrLogInPage = ({title}) => {
                                         type="password"
                                         placeholder="Password"
                                         onChange={handleChange}
+                                        isInvalid={!!errors.passwordError}
                                         required
                                     /> {/* id="password" */}
                                     <Form.Control.Feedback type="invalid">
-                                        Password is a required field.
+                                        {errors.passwordError}
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Button variant="primary" type="submit">

@@ -15,8 +15,8 @@ export const useUser = () => {
                 dispatch(addUserAction({email: user.email})); // add User to the state
                 navigate('/videos');
             }
-        } catch(err) {
-            console.log(err);
+        } catch(error) {
+            dispatch(addErrorMessageAction(error.message));
         }
     }
 

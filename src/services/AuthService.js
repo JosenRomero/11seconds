@@ -10,8 +10,9 @@ export const signup = async ({email, password}) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         return userCredential
-    } catch(err) {
-        console.log(err)
+    } catch(error) {
+        const message = errorMessageHandler(error.code);
+        return Promise.reject({message});
     }
 }
 
