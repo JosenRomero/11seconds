@@ -1,7 +1,6 @@
 
 const validationEmailAndPassword = (email, password) => {
-    console.log("en utils")
-
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     let emailError = (email === "") 
