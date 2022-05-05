@@ -1,4 +1,4 @@
-import { addDoc, collection, query, getDocs, orderBy, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, query, getDocs, doc, getDoc, where } from "firebase/firestore";
 import { firebaseDB } from '../firebase';
 import errorMessageHandler from '../utils/errorMessageHandler';
 
@@ -17,9 +17,9 @@ export const save = async (videoTitle, videoUrl, uid) => {
     }
 }
 
-export const getAll = async () => {
+export const getAll = async (userId) => {
     try {
-        const q = query(collection(firebaseDB, "videos"), orderBy("title", "desc"));
+        const q = query(collection(firebaseDB, "videos"), where("userId", "==", userId));
         const res = await getDocs(q);
         const videos = res.docs.map((doc) => { 
             return { ...doc.data(), id: doc.id } 

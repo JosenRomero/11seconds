@@ -22,7 +22,7 @@ export const useData = () => {
 
     const getAllData = async () => {
         try {
-            return await getAll();
+            return await getAll(user.uid);
         } catch(error) {
             dispatch(addErrorMessageAction(error.message));
         }
