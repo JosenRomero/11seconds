@@ -4,6 +4,7 @@ import HomePage from '../pages/HomePage';
 import VideosPage from '../pages/VideosPage';
 import VideoDetailsPage from '../pages/VideoDetailsPage';
 import UploadVideoPage from '../pages/UploadVideoPage';
+import EditProfilePage from '../pages/EditProfilePage';
 import SignUpOrLogInPage from '../pages/SignUpOrLogInPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import PublicRoute from './PublicRoute';
@@ -41,6 +42,13 @@ const AppRouter = () => {
                         element={
                             <PrivateRoute>
                                 <UploadVideoPage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route exact path="/editprofile"
+                        element={
+                            <PrivateRoute>
+                                <EditProfilePage />
                             </PrivateRoute>
                         }
                     />
