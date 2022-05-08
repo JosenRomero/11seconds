@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { addUserAction, addErrorMessageAction } from '../redux/actions/Actions';
 import { useNavigate } from 'react-router-dom';
-import { signup, login, logout } from '../services/AuthService';
+import { signup, login, updateUser, logout } from '../services/AuthService';
 
 export const useUser = () => {
 
@@ -12,7 +12,8 @@ export const useUser = () => {
         try {
             const { user } = await signup({email, password});
             if(user) {
-                dispatch(addUserAction({email: user.email})); // add User to the state
+                let { email, uid, photoURL, displayName } = user;
+                dispatch(addUserAction({email, uid, photoURL, username: displayName})); // add User to the state
                 navigate('/videos');
             }
         } catch(error) {
@@ -24,9 +25,18 @@ export const useUser = () => {
         try {
             const { user } = await login({email, password});
             if(user) {
-                dispatch(addUserAction({email: user.email, uid: user.uid})); // add User to the state
+                let { email, uid, photoURL, displayName } = user;
+                dispatch(addUserAction({email, uid, photoURL, username: displayName})); // add User to the state
                 navigate('/videos');
             }
+        } catch(error) {
+            dispatch(addErrorMessageAction(error.message));
+        }
+    }
+
+    const updateUserProfile = async (infoUser) => {
+        try {
+            await updateUser(infoUser);
         } catch(error) {
             dispatch(addErrorMessageAction(error.message));
         }
@@ -40,6 +50,7 @@ export const useUser = () => {
     return {
         registerUser,
         loginUser,
+        updateUserProfile,
         logoutUser
     }
 
