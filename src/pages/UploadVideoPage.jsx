@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Container, Card, Col, Row, Form, Button, ProgressBar } from 'react-bootstrap';
-import { useVideo } from '../hooks/useVideo';
+import { useUploadFile } from '../hooks/useUploadFile';
 import { useData } from '../hooks/useData';
 
 const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
 
-    const { uploadVideo, deleteVideo, loading, progressBar, videoUrl } = useVideo();
+    const { uploadFile, deleteFile, loading, progressBar, fileUrl } = useUploadFile();
 
     const { saveData } = useData();
 
@@ -15,7 +15,7 @@ const UploadVideoPage = () => {
 
     const handleAdd = (event) => {
         event.preventDefault();
-        saveData({videoTitle, videoUrl});
+        saveData(videoTitle, fileUrl);
         setValidated(true); // show Form.Control.Feedback
     }
 
@@ -43,7 +43,7 @@ const UploadVideoPage = () => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
 
-                                {!videoUrl ? (
+                                {!fileUrl ? (
                                     <>
                                         {loading ? (
                                             <>
@@ -55,7 +55,7 @@ const UploadVideoPage = () => {
                                                 <Form.Label>Choose file</Form.Label> {/* for="file" */}
                                                 <Form.Control
                                                     type="file"
-                                                    onChange={(e) => uploadVideo(e.target.files[0])}
+                                                    onChange={(e) => uploadFile(e.target.files[0], "videos")}
                                                     accept="video/mp4,video/x-m4v,video/*"
                                                     required
                                                 /> {/* id="file" */}
@@ -67,8 +67,8 @@ const UploadVideoPage = () => {
                                     </>
                                 ) : (
                                     <div className="text-center mb-3">
-                                        <video src={videoUrl} width="90%" height="90%" controls />
-                                        <Button onClick={() => deleteVideo()} variant="danger">Delete Video</Button>
+                                        <video src={fileUrl} width="90%" height="90%" controls />
+                                        <Button onClick={() => deleteFile()} variant="danger">Delete Video</Button>
                                     </div>
                                 )}
 

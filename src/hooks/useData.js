@@ -11,7 +11,7 @@ export const useData = () => {
 
     const navigate = useNavigate();
 
-    const saveData = async ({videoTitle, videoUrl}) => {
+    const saveData = async (videoTitle, videoUrl) => {
         try {
             await save(videoTitle, videoUrl, user.uid);
             navigate('/videos');

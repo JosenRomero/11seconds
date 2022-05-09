@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../firebase';
 
 export const useUploadFile = () => {
@@ -40,8 +40,19 @@ export const useUploadFile = () => {
 
     }
 
+    const deleteFile = async () => {
+        try {
+            const deleteRef = ref(storage, fileUrl);
+            await deleteObject(deleteRef);
+            setFileUrl(null);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
     return {
         uploadFile,
+        deleteFile,
         loading,
         progressBar,
         fileUrl
