@@ -2,15 +2,13 @@ import { useState } from 'react';
 import { Container, Card, Col, Row, Form, Button, ProgressBar } from 'react-bootstrap';
 import { useUploadFile } from '../hooks/useUploadFile';
 import { useData } from '../hooks/useData';
+import FormGroup from '../components/FormGroup';
 
 const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
-
     const { uploadFile, deleteFile, loading, progressBar, fileUrl } = useUploadFile();
-
     const { saveData } = useData();
-
     const [videoTitle, setVideoTitle] = useState("");
 
     const handleAdd = (event) => {
@@ -30,51 +28,43 @@ const UploadVideoPage = () => {
                             <Card.Title>Upload Video</Card.Title>
 
                             <Form noValidate validated={validated} onSubmit={handleAdd}>
-                                <Form.Group className="mb-3" controlId="title">
-                                    <Form.Label>Title of Video</Form.Label> {/* for="title" */}
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Enter title"
-                                        onChange={(e) => setVideoTitle(e.target.value)}
-                                        required
-                                    /> {/* id="title" */}
-                                    <Form.Control.Feedback type="invalid">
-                                        Title is a required field.
-                                    </Form.Control.Feedback>
-                                </Form.Group>
+                                <FormGroup
+                                    id={"title"}
+                                    label={"Title of Video"}
+                                    errorMessage={"Title is a required field."}
+                                    type="text"
+                                    placeholder="Enter title"
+                                    onChange={(e) => setVideoTitle(e.target.value)}
+                                    required
+                                />
 
-                                {!fileUrl ? (
+                                {!fileUrl && !loading && (
+                                    <FormGroup
+                                        id={"file"}
+                                        label={"Choose file"}
+                                        errorMessage={"File is a required field."}
+                                        type="file"
+                                        onChange={(e) => uploadFile(e.target.files[0], "videos")}
+                                        accept="video/mp4,video/x-m4v,video/*"
+                                        required
+                                    />
+                                )}
+
+                                {!fileUrl && loading && (
                                     <>
-                                        {loading ? (
-                                            <>
-                                                <p className="mb-2 text-center">Uploading Your Video</p>
-                                                <ProgressBar animated now={progressBar} className="mb-3" />
-                                            </>
-                                        ) : (
-                                            <Form.Group className="mb-3" controlId="file">
-                                                <Form.Label>Choose file</Form.Label> {/* for="file" */}
-                                                <Form.Control
-                                                    type="file"
-                                                    onChange={(e) => uploadFile(e.target.files[0], "videos")}
-                                                    accept="video/mp4,video/x-m4v,video/*"
-                                                    required
-                                                /> {/* id="file" */}
-                                                <Form.Control.Feedback type="invalid">
-                                                    File is a required field.
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
-                                        )}
+                                        <p className="mb-2 text-center">Uploading Your Video</p>
+                                        <ProgressBar animated now={progressBar} className="mb-3" />
                                     </>
-                                ) : (
+                                )}
+
+                                {fileUrl && (
                                     <div className="text-center mb-3">
                                         <video src={fileUrl} width="90%" height="90%" controls />
                                         <Button onClick={() => deleteFile()} variant="danger">Delete Video</Button>
                                     </div>
                                 )}
 
-                                <Button variant="primary" type="submit">
-                                    Publish
-                                </Button>
+                                <Button variant="primary" type="submit">Publish</Button>
                             </Form>
 
                         </Card.Body>

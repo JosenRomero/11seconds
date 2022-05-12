@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useUploadFile } from '../hooks/useUploadFile';
 import { useUser } from '../hooks/useUser';
+import FormGroup from '../components/FormGroup';
 
 const EditProfilePage = () => {
 
@@ -26,47 +27,38 @@ const EditProfilePage = () => {
 
                     <Card>
                         <Card.Body>
-            
+
                             <Card.Title>Edit Profile</Card.Title>
                             <Form onSubmit={handleSubmit}>
-                                {!fileUrl ? (
-                                    <>
-                                        {loading ? (
-                                            <>
-                                                <p className="mb-2 text-center">Uploading Your Image</p>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Form.Group className="mb-3" controlId="file">
-                                                    <Form.Label>Choose file</Form.Label>
-                                                    <Form.Control
-                                                        type="file"
-                                                        onChange={(e) => uploadFile(e.target.files[0], "images")}
-                                                        accept="image/*"
-                                                    />
-                                                </Form.Group>
-                                            </>
-                                        )}
 
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="text-center mb-3">
-                                            <img src={fileUrl} alt="img" width="90%" height="90%" />
-                                        </div>
-                                    </>
-                                )}
-                                <Form.Group className="mb-3" controlId="name">
-                                    <Form.Label>Name</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder={user.username ? user.username : "username"}
-                                        onChange={(e) => setUsername(e.target.value)}
+                                {!fileUrl && !loading && (
+                                    <FormGroup 
+                                        id={"file"}
+                                        label={"Choose file"}
+                                        type="file"
+                                        onChange={(e) => uploadFile(e.target.files[0], "images")}
+                                        accept="image/*"
                                     />
-                                </Form.Group>
-                                <Button variant="primary" type="submit">
-                                    Save
-                                </Button>
+                                )}
+
+                                {!fileUrl && loading && (
+                                    <p className="mb-2 text-center">Uploading Your Image</p>
+                                )}
+
+                                {fileUrl && (
+                                    <div className="text-center mb-3">
+                                        <img src={fileUrl} alt="img" width="90%" height="90%" />
+                                    </div>
+                                )}
+                                
+                                <FormGroup
+                                    id={"name"}
+                                    label={"Name"}
+                                    type="text"
+                                    placeholder={user.username ? user.username : "username"}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+                                <Button variant="primary" type="submit">Save</Button>
                             </Form>
 
                         </Card.Body>

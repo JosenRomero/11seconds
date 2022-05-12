@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Container, Form, Button, Row, Card, Col } from 'react-bootstrap';
 import { useUser } from '../hooks/useUser';
 import validationEmailAndPassword from '../utils/validationEmailAndPassword';
+import FormGroup from '../components/FormGroup';
 
 const SignUpOrLogInPage = ({title}) => {
 
@@ -25,7 +26,7 @@ const SignUpOrLogInPage = ({title}) => {
         return (emailError === "" && passwordError === "") ? true : false
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         let validate = validateEmailAndPassword()
         setValidated(validate); // show Form.Control.Feedback
@@ -42,7 +43,6 @@ const SignUpOrLogInPage = ({title}) => {
     }
 
     return (
-
         <Container className="mt-5">
             <Row className="justify-content-md-center">
                 <Col md="6">
@@ -53,35 +53,27 @@ const SignUpOrLogInPage = ({title}) => {
                             <Card.Title>{title}</Card.Title>
 
                             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                                <Form.Group className="mb-3" controlId="email">
-                                    <Form.Label>Email address</Form.Label> {/* for="email" */}
-                                    <Form.Control
-                                        type="email"
-                                        placeholder="Enter email"
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.emailError}
-                                        required
-                                    /> {/* id="email" */}
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.emailError}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="password">
-                                    <Form.Label>Password</Form.Label> {/* for="password" */}
-                                    <Form.Control
-                                        type="password"
-                                        placeholder="Password"
-                                        onChange={handleChange}
-                                        isInvalid={!!errors.passwordError}
-                                        required
-                                    /> {/* id="password" */}
-                                    <Form.Control.Feedback type="invalid">
-                                        {errors.passwordError}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                                <Button variant="primary" type="submit">
-                                    Submit
-                                </Button>
+                                <FormGroup
+                                    id={"email"}
+                                    label={"Email address"}
+                                    errorMessage={errors.emailError}
+                                    type="email"
+                                    placeholder="Enter email"
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.emailError}
+                                    required
+                                />
+                                <FormGroup
+                                    id={"password"}
+                                    label={"Password"}
+                                    errorMessage={errors.passwordError}
+                                    type="password"
+                                    placeholder="Password"
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.passwordError}
+                                    required
+                                />
+                                <Button variant="primary" type="submit">Submit</Button>
                             </Form>
 
                         </Card.Body>
@@ -90,7 +82,6 @@ const SignUpOrLogInPage = ({title}) => {
                 </Col>
             </Row>
         </Container>
-
     );
 
 }
