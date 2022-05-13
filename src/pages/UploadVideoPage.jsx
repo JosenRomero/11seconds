@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Container, Card, Col, Row, Form, Button, ProgressBar } from 'react-bootstrap';
-import { useUploadFile } from '../hooks/useUploadFile';
+import { useFile } from '../hooks/useFile';
 import { useData } from '../hooks/useData';
 import FormGroup from '../components/FormGroup';
 
 const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
-    const { uploadFile, deleteFile, loading, progressBar, fileUrl } = useUploadFile();
+    const { uploadFile, deleteTheNewlyUploadedFile, loading, progressBar, fileUrl } = useFile();
     const { saveData } = useData();
     const [videoTitle, setVideoTitle] = useState("");
 
@@ -60,7 +60,7 @@ const UploadVideoPage = () => {
                                 {fileUrl && (
                                     <div className="text-center mb-3">
                                         <video src={fileUrl} width="90%" height="90%" controls />
-                                        <Button onClick={() => deleteFile()} variant="danger">Delete Video</Button>
+                                        <Button onClick={() => deleteTheNewlyUploadedFile()} variant="danger">Delete Video</Button>
                                     </div>
                                 )}
 

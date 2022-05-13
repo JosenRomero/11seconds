@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 import { storage } from '../firebase';
 
-export const useUploadFile = () => {
+export const useFile = () => {
 
     const [loading, setLoading] = useState(false);
     const [progressBar, setProgressBar] = useState(5);
@@ -40,10 +40,18 @@ export const useUploadFile = () => {
 
     }
 
-    const deleteFile = async () => {
+    const deleteFile = async (url) => {
         try {
-            const deleteRef = ref(storage, fileUrl);
+            const deleteRef = ref(storage, url);
             await deleteObject(deleteRef);
+        } catch(error) {
+            console.log(error);
+        }
+    }
+    
+    const deleteTheNewlyUploadedFile = async () => {
+        try {
+            await deleteFile(fileUrl);
             setFileUrl(null);
         } catch(error) {
             console.log(error);
@@ -52,7 +60,7 @@ export const useUploadFile = () => {
 
     return {
         uploadFile,
-        deleteFile,
+        deleteTheNewlyUploadedFile,
         loading,
         progressBar,
         fileUrl

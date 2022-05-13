@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
-import { useUploadFile } from '../hooks/useUploadFile';
+import { useFile } from '../hooks/useFile';
 import { useUser } from '../hooks/useUser';
 import FormGroup from '../components/FormGroup';
 
@@ -9,7 +9,7 @@ const EditProfilePage = () => {
 
     const user = useSelector((state) => state.user); // reducers/index.js
     const [username, setUsername] = useState("");
-    const { uploadFile, loading, fileUrl } = useUploadFile();
+    const { uploadFile, loading, fileUrl } = useFile();
     const { updateUserProfile } = useUser();
 
     const handleSubmit = (event) => {
