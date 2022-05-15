@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import Loading from '../components/Loading';
 import { useData } from '../hooks/useData';
 
@@ -9,7 +9,7 @@ const VideoDetailsPage = () => {
     const { videoId } = useParams();
     const [video, setVideo] = useState(null);
     const [loading, setLoading] = useState(false);
-    const { getOneData } = useData();
+    const { getOneData, deleteOneData } = useData();
 
     useEffect(() => {
 
@@ -43,7 +43,7 @@ const VideoDetailsPage = () => {
                             </Card>
                         </Col>
                         <Col md="4">
-
+                            <Button onClick={() => deleteOneData(videoId, video.videoUrl)} variant="danger">Delete Video</Button>
                         </Col>
                     </Row>
                 </Container>

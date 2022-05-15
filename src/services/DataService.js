@@ -1,4 +1,4 @@
-import { addDoc, collection, query, getDocs, doc, getDoc, where } from "firebase/firestore";
+import { addDoc, collection, query, getDocs, doc, getDoc, where, deleteDoc } from "firebase/firestore";
 import { firebaseDB } from '../firebase';
 import errorMessageHandler from '../utils/errorMessageHandler';
 
@@ -36,6 +36,16 @@ export const getOne = async (videoId) => {
         const videoRef = doc(firebaseDB, "videos", videoId);
         const videoSnap = await getDoc(videoRef);
         if(videoSnap.exists()) return videoSnap.data();
+    } catch(error) {
+        const message = errorMessageHandler(error.code);
+        return Promise.reject({message});
+    }
+}
+
+export const deleteOne = async (videoId) => {
+    try {
+        const videoRef = doc(firebaseDB, "videos", videoId);
+        await deleteDoc(videoRef);
     } catch(error) {
         const message = errorMessageHandler(error.code);
         return Promise.reject({message});

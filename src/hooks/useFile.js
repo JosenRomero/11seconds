@@ -60,6 +60,7 @@ export const useFile = () => {
 
     return {
         uploadFile,
+        deleteFile,
         deleteTheNewlyUploadedFile,
         loading,
         progressBar,
