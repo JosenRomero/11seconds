@@ -63,8 +63,7 @@ const UploadVideoPage = () => {
                                         <Button onClick={() => deleteTheNewlyUploadedFile()} variant="danger">Delete Video</Button>
                                     </div>
                                 )}
-
-                                <Button variant="primary" type="submit">Publish</Button>
+                                <Button variant="primary" type="submit" disabled={(videoTitle.length > 0 && fileUrl) ? false : true}>Publish</Button>
                             </Form>
 
                         </Card.Body>
