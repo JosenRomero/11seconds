@@ -1,13 +1,16 @@
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useUser } from '../hooks/useUser';
 import { Link } from 'react-router-dom';
+import profileImg from '../images/blank_profile_image_.svg';
 
 const Menu = () => {
 
     const user = useSelector((state) => state.user); // reducers/index.js
 
     const { logoutUser } = useUser();
+
+    const userImg = (<img src={user.photoURL ? user.photoURL : profileImg} className="profileImage" alt="profileImg" />)
 
     return(
         <Navbar expand="lg" bg="dark" variant="dark" collapseOnSelect>
@@ -19,10 +22,15 @@ const Menu = () => {
                         { user.email && 
                             <>
                                 <Nav.Link as={Link} to="/">Home</Nav.Link>
-                                <Nav.Link as={Link} to="/videos">Videos</Nav.Link>
-                                <Nav.Link as={Link} to="/upload">Upload</Nav.Link>
-                                <Nav.Link as={Link} to="/editprofile">Edit Profile</Nav.Link>
-                                <Nav.Link onClick={ () => logoutUser() }>Log Out</Nav.Link>
+                                
+                                <NavDropdown title={userImg} id="nav-dropdown" align="end">
+                                    <NavDropdown.Item as={Link} to="/videos">Videos</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/upload">Upload</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/editprofile">Edit Profile</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item onClick={ () => logoutUser() }>Log Out</NavDropdown.Item>
+                                </NavDropdown>
+                
                             </>
                         }
                         { !user.email && 
