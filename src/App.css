@@ -1,9 +1,18 @@
 .dropdown-toggle::after {
-    display: none !important; 
+    display: none !important;
 }
 
-.profileImage {
+.avatar-small {
     width: 32px;
     height: 32px;
-    border-radius: 32px;
+}
+
+.avatar {
+    width: 260px;
+    height: 260px;
+}
+
+.btnToOpenInputFile {
+    top: 250px;
+    left: 50px;
 }

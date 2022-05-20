@@ -37,6 +37,7 @@ export const useUser = () => {
     const updateUserProfile = async (infoUser) => {
         try {
             await updateUser(infoUser);
+            navigate('/videos');
         } catch(error) {
             dispatch(addErrorMessageAction(error.message));
         }

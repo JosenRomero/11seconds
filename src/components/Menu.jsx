@@ -10,7 +10,7 @@ const Menu = () => {
 
     const { logoutUser } = useUser();
 
-    const userImg = (<img src={user.photoURL ? user.photoURL : profileImg} className="profileImage" alt="profileImg" />)
+    const userImg = (<img src={user.photoURL ? user.photoURL : profileImg} className="avatar-small rounded-circle" alt="avatar small" />)
 
     return(
         <Navbar expand="lg" bg="dark" variant="dark" collapseOnSelect>

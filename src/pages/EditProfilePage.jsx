@@ -4,6 +4,7 @@ import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useFile } from '../hooks/useFile';
 import { useUser } from '../hooks/useUser';
 import FormGroup from '../components/FormGroup';
+import profileImg from '../images/blank_profile_image_.svg';
 
 const EditProfilePage = () => {
 
@@ -33,9 +34,10 @@ const EditProfilePage = () => {
 
                                 {!fileUrl && !loading && (
                                     <FormGroup 
-                                        id={"file"}
-                                        label={"Choose file"}
+                                        id={"selectProfileImage"}
+                                        btn="Upload a photo"
                                         type="file"
+                                        hidden
                                         onChange={(e) => uploadFile(e.target.files[0], "images")}
                                         accept="image/*"
                                     />
@@ -45,12 +47,10 @@ const EditProfilePage = () => {
                                     <p className="mb-2 text-center">Uploading Your Image</p>
                                 )}
 
-                                {fileUrl && (
-                                    <div className="text-center mb-3">
-                                        <img src={fileUrl} alt="img" width="90%" height="90%" />
-                                    </div>
-                                )}
-                                
+                                <div className="text-center mb-3">
+                                    <img src={user.photoURL ? user.photoURL : profileImg} className="avatar rounded-circle" alt="avatar"/>
+                                </div>
+
                                 <FormGroup
                                     id={"name"}
                                     label={"Name"}
