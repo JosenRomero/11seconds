@@ -8,7 +8,7 @@ const Layout = ({children}) => {
         <>
             <Menu />
             <ErrorNotification />
-            <div className="min-vh-100">
+            <div className="min-vh-100 bg-light">
                 {children}
             </div>
             <Footer />

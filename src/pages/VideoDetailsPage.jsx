@@ -30,7 +30,7 @@ const VideoDetailsPage = () => {
     return (
         <>
             {video && (
-                <Container className="mt-5">
+                <Container className="pt-5">
                     <Row className="justify-content-md-center">
                         <Col md="8">
                             <Card>
