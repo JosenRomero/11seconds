@@ -29,13 +29,13 @@ const VideosPage = () => {
     if(!videos && loading) return <Loading />
 
     return (
-        <Container className="mt-5">
-            <Row xs={1} md={2}>
+        <Container className="mt-3 bg-white">
+            <Row xs={1} sm={2} md={3} lg={4}>
 
                 {videos && videos.map((video, i) => {
                     return (
                         <Col key={i}>
-                            <Card>
+                            <Card className="border-0">
                                 <Card.Body>
                                     <div>
                                         <video src={video.videoUrl} width="100%" height="100%" controls />
