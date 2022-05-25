@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Container, Card, Col, Row, Form, Button, ProgressBar } from 'react-bootstrap';
 import { useFile } from '../hooks/useFile';
+import { useVideoThumbnail } from '../hooks/useVideoThumbnail';
 import { useData } from '../hooks/useData';
 import FormGroup from '../components/FormGroup';
 
@@ -8,6 +9,7 @@ const UploadVideoPage = () => {
 
     const [validated, setValidated] = useState(false); // if validated is false then hide Form.Control.Feedback
     const { uploadFile, deleteTheNewlyUploadedFile, loading, progressBar, fileUrl } = useFile();
+    const { getAndUploadVideoThumbnail, deleteVideoThumbnail, imageUrl } = useVideoThumbnail();
     const { saveData } = useData();
     const [videoTitle, setVideoTitle] = useState("");
 
@@ -15,6 +17,17 @@ const UploadVideoPage = () => {
         event.preventDefault();
         saveData(videoTitle, fileUrl);
         setValidated(true); // show Form.Control.Feedback
+    }
+
+    const handleVideo = (event) => {
+        let video = event.target.files[0];
+        uploadFile(video, "videos");
+        getAndUploadVideoThumbnail(video);
+    }
+
+    const deleteVideo = () => {
+        deleteTheNewlyUploadedFile();
+        deleteVideoThumbnail();
     }
 
     return (
@@ -44,7 +57,7 @@ const UploadVideoPage = () => {
                                         label={"Choose file"}
                                         errorMessage={"File is a required field."}
                                         type="file"
-                                        onChange={(e) => uploadFile(e.target.files[0], "videos")}
+                                        onChange={(e) => handleVideo(e)}
                                         accept="video/mp4,video/x-m4v,video/*"
                                         required
                                     />
@@ -57,10 +70,18 @@ const UploadVideoPage = () => {
                                     </>
                                 )}
 
+                                {imageUrl && (
+                                    <div className="text-center mb-3">
+                                        <p>Video Thumbnail</p>
+                                        <img src={imageUrl} className="w-50 h-50" alt="Video Thumbnail"/>
+                                    </div>
+                                )}
+
                                 {fileUrl && (
                                     <div className="text-center mb-3">
+                                        <p>Video Preview</p>
                                         <video src={fileUrl} width="90%" height="90%" controls />
-                                        <Button onClick={() => deleteTheNewlyUploadedFile()} variant="danger">Delete Video</Button>
+                                        <Button onClick={() => deleteVideo()} variant="danger">Delete Video</Button>
                                     </div>
                                 )}
                                 <Button variant="primary" type="submit" disabled={(videoTitle.length > 0 && fileUrl) ? false : true}>Publish</Button>
