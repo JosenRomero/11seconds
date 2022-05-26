@@ -13,7 +13,7 @@ export const useVideoThumbnail = () => {
     const getVideoThumbnail = async (file) => {
         
         let blob = new Blob([file], {type: "video/mp4"});
-        const thumbnails = await getThumbnails(blob);
+        const thumbnails = await getThumbnails(blob, {start: 1, end: 1});
 
         let image = new File([thumbnails[0].blob], "VideoThumbnail.png", { type: "image/png" });
         return image

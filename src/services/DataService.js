@@ -2,12 +2,13 @@ import { addDoc, collection, query, getDocs, doc, getDoc, where, deleteDoc } fro
 import { firebaseDB } from '../firebase';
 import errorMessageHandler from '../utils/errorMessageHandler';
 
-export const save = async (videoTitle, videoUrl, uid) => {
+export const save = async (videoTitle, videoUrl, videoThumbnailUrl, uid) => {
     try {
         const data = {
             userId: uid,
             title: videoTitle,
-            videoUrl
+            videoUrl,
+            videoThumbnailUrl
         }
         // with a generated id
         await addDoc(collection(firebaseDB, "videos"), data);

@@ -15,7 +15,7 @@ const UploadVideoPage = () => {
 
     const handleAdd = (event) => {
         event.preventDefault();
-        saveData(videoTitle, fileUrl);
+        saveData(videoTitle, fileUrl, imageUrl);
         setValidated(true); // show Form.Control.Feedback
     }
 
@@ -84,7 +84,7 @@ const UploadVideoPage = () => {
                                         <Button onClick={() => deleteVideo()} variant="danger">Delete Video</Button>
                                     </div>
                                 )}
-                                <Button variant="primary" type="submit" disabled={(videoTitle.length > 0 && fileUrl) ? false : true}>Publish</Button>
+                                <Button variant="primary" type="submit" disabled={(videoTitle.length > 0 && fileUrl && imageUrl) ? false : true}>Publish</Button>
                             </Form>
 
                         </Card.Body>

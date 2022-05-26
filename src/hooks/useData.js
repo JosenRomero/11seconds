@@ -11,9 +11,9 @@ export const useData = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const saveData = async (videoTitle, videoUrl) => {
+    const saveData = async (videoTitle, videoUrl, videoThumbnailUrl) => {
         try {
-            await save(videoTitle, videoUrl, user.uid);
+            await save(videoTitle, videoUrl, videoThumbnailUrl, user.uid);
             navigate('/videos');
         } catch(error) {
             dispatch(addErrorMessageAction(error.message));
