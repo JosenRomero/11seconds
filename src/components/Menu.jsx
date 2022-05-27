@@ -13,7 +13,7 @@ const Menu = () => {
     const userImg = (<img src={user.photoURL ? user.photoURL : profileImg} className="avatar-small rounded-circle" alt="avatar small" />)
 
     return(
-        <Navbar expand="lg" bg="dark" variant="dark" collapseOnSelect>
+        <Navbar expand="lg" bg="light" variant="light" collapseOnSelect>
             <Container fluid>
                 <Navbar.Brand as={Link} to="/">11seconds</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -21,12 +21,12 @@ const Menu = () => {
                     <Nav className="ms-auto">
                         { user.email && 
                             <>
-                                <Nav.Link as={Link} to="/">Home</Nav.Link>
+                                <Nav.Link as={Link} to="/" eventKey={1}>Home</Nav.Link>
                                 
-                                <NavDropdown title={userImg} id="nav-dropdown" align="end">
-                                    <NavDropdown.Item as={Link} to="/videos">Videos</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/upload">Upload</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/editprofile">Edit Profile</NavDropdown.Item>
+                                <NavDropdown title={userImg} id="nav-dropdown" align="end" eventKey={2}>
+                                    <NavDropdown.Item as={Link} to="/videos" eventKey={2.1}>Videos</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/upload" eventKey={2.2}>Upload</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/editprofile" eventKey={2.3}>Edit Profile</NavDropdown.Item>
                                     <NavDropdown.Divider />
                                     <NavDropdown.Item onClick={ () => logoutUser() }>Log Out</NavDropdown.Item>
                                 </NavDropdown>
@@ -35,8 +35,8 @@ const Menu = () => {
                         }
                         { !user.email && 
                             <>
-                                <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
-                                <Nav.Link as={Link} to="/login">Log In</Nav.Link>
+                                <Nav.Link as={Link} to="/signup" eventKey={3}>Sign Up</Nav.Link>
+                                <Nav.Link as={Link} to="/login" eventKey={4}>Log In</Nav.Link>
                             </>
                         }
                     </Nav>

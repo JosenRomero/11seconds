@@ -9,7 +9,7 @@ const Banner = ({children}) => {
     const user = useSelector((state) => state.user); // reducers/index.js
 
     return (
-        <Container>
+        <Container className="pb-5">
             <Row>
                 <Col>
                     <div className="position-relative">
