@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '../hooks/useData';
-import { Card, Col, Container, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import Loading from '../components/Loading';
 
 const VideosPage = () => {
 
     const [videos, setVideos] = useState(null);
-
-    const { getAllData } = useData();
-
+    const [lastKey, setLastKey] = useState(null);
+    const [moreContent, setMoreContent] = useState(true);
+    const { getFirstPageData, getNextPageData } = useData();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -17,16 +17,39 @@ const VideosPage = () => {
         setLoading(true);
 
         if (!videos) {
-            getAllData()
+            getFirstPageData()
                 .then((data) => {
-                    setVideos(data);
-                    setLoading(false);
+                    if(data.videos.length >= 1) {
+                        setVideos(data.videos);
+                        setLastKey(data.lastVisible);
+                        setLoading(false);
+                    } else {
+                        setMoreContent(false);
+                    }
                 });
         }
 
-    }, [videos, getAllData]);
+    }, [videos, getFirstPageData]);
 
-    if(!videos && loading) return <Loading />
+    const moreVideos = () => {
+
+        setLoading(true);
+
+        if(lastKey) {
+            getNextPageData(lastKey)
+                .then((data) => {
+                    if(data.videos.length >= 1) {
+                        setVideos([...videos, ...data.videos]);
+                        setLastKey(data.lastVisible);
+                        setLoading(false);
+                    } else {
+                        setMoreContent(false);
+                    }
+                });
+        }
+    }
+
+    if(!videos && loading && moreContent) return <Loading />
 
     return (
         <Container className="mt-3 bg-white">
@@ -50,6 +73,17 @@ const VideosPage = () => {
                 })}
 
             </Row>
+
+            <Row>
+                {moreContent && (
+                    <Button onClick={() => moreVideos()} variant="primary">More Videos</Button>
+                )}
+
+                {!videos && !moreContent && (
+                    <h3 className="text-center">no content</h3>
+                )}
+            </Row>
+
         </Container>
     );
 

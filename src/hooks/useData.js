@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { save, getAll, getOne, deleteOne } from '../services/DataService';
+import { save, getFirstPage, getNextPage, getOne, deleteOne } from '../services/DataService';
 import { addErrorMessageAction } from '../redux/actions/Actions';
 import { useFile } from './useFile';
 
@@ -20,9 +20,17 @@ export const useData = () => {
         }
     }
 
-    const getAllData = async () => {
+    const getFirstPageData = async () => {
         try {
-            return await getAll(user.uid);
+            return await getFirstPage(user.uid);
+        } catch(error) {
+            dispatch(addErrorMessageAction(error.message));
+        }
+    }
+
+    const getNextPageData = async (lastVideo) => {
+        try {
+            return await getNextPage(user.uid, lastVideo);
         } catch(error) {
             dispatch(addErrorMessageAction(error.message));
         }
@@ -48,7 +56,8 @@ export const useData = () => {
 
     return {
         saveData,
-        getAllData,
+        getFirstPageData,
+        getNextPageData,
         getOneData,
         deleteOneData
     }

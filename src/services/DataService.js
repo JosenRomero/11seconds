@@ -1,4 +1,4 @@
-import { addDoc, collection, query, getDocs, doc, getDoc, where, deleteDoc } from "firebase/firestore";
+import { addDoc, collection, query, getDocs, doc, getDoc, where, deleteDoc, startAfter, limit } from "firebase/firestore";
 import { firebaseDB } from '../firebase';
 import errorMessageHandler from '../utils/errorMessageHandler';
 
@@ -18,14 +18,41 @@ export const save = async (videoTitle, videoUrl, videoThumbnailUrl, uid) => {
     }
 }
 
-export const getAll = async (userId) => {
+export const getFirstPage = async (userId) => {
     try {
-        const q = query(collection(firebaseDB, "videos"), where("userId", "==", userId));
+        const q = query(
+            collection(firebaseDB, "videos"), 
+            where("userId", "==", userId),
+            limit(2)
+        );
         const res = await getDocs(q);
         const videos = res.docs.map((doc) => { 
             return { ...doc.data(), id: doc.id } 
         })
-        return videos
+        // Get the last visible document
+        const lastVisible = res.docs[res.docs.length-1];
+        return { videos, lastVisible }
+    } catch(error) {
+        const message = errorMessageHandler(error.code);
+        return Promise.reject({message});
+    }
+}
+
+export const getNextPage = async (userId, lastVideo) => {
+    try {
+        const q = query(
+            collection(firebaseDB, "videos"),
+            where("userId", "==", userId),
+            startAfter(lastVideo),
+            limit(2)
+        );
+        const res = await getDocs(q);
+        const videos = res.docs.map((doc) => { 
+            return { ...doc.data(), id: doc.id } 
+        });
+        // Get the last visible document
+        const lastVisible = res.docs[res.docs.length-1];
+        return { videos, lastVisible }
     } catch(error) {
         const message = errorMessageHandler(error.code);
         return Promise.reject({message});
