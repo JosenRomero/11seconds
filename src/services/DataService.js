@@ -23,7 +23,7 @@ export const getFirstPage = async (userId) => {
         const q = query(
             collection(firebaseDB, "videos"), 
             where("userId", "==", userId),
-            limit(2)
+            limit(8)
         );
         const res = await getDocs(q);
         const videos = res.docs.map((doc) => { 
@@ -44,7 +44,7 @@ export const getNextPage = async (userId, lastVideo) => {
             collection(firebaseDB, "videos"),
             where("userId", "==", userId),
             startAfter(lastVideo),
-            limit(2)
+            limit(8)
         );
         const res = await getDocs(q);
         const videos = res.docs.map((doc) => { 
