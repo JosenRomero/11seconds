@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
 import { useGetVideos } from '../hooks/useGetVideos';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import VideosContainer from '../components/VideosContainer';
 import Loading from '../components/Loading';
+import VideoThumbnail from '../components/VideoThumbnail';
 
 const HomePage = () => {
 
@@ -20,11 +20,7 @@ const HomePage = () => {
                         <Col>
                             <Card className="border-0">
                                 <Card.Body>
-                                    <Link to={`/video/${firstVideo.id}`}>
-                                        <div>
-                                            <img src={firstVideo.videoThumbnailUrl} className="w-100 h-100" alt="videoThumbnailUrl" />
-                                        </div>
-                                    </Link>
+                                    <VideoThumbnail videoId={firstVideo.id} videoUrl={firstVideo.videoThumbnailUrl} />
                                 </Card.Body>
                             </Card>
                         </Col>

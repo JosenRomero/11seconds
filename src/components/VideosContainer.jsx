@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { Card, Col } from 'react-bootstrap';
+import VideoThumbnail from './VideoThumbnail';
 
 const VideosContainer = ({ videos, moreContent }) => {
 
@@ -10,11 +10,7 @@ const VideosContainer = ({ videos, moreContent }) => {
                     <Col key={i}>
                         <Card className="border-0">
                             <Card.Body>
-                                <Link to={`/video/${video.id}`}>
-                                    <div>
-                                        <img src={video.videoThumbnailUrl} className="w-100 h-100" alt="videoThumbnailUrl" />
-                                    </div>
-                                </Link>
+                                <VideoThumbnail videoId={video.id} videoUrl={video.videoThumbnailUrl} />
                                 <Card.Title>{video.title}</Card.Title>
                             </Card.Body>
                         </Card>
