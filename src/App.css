@@ -28,3 +28,10 @@
     top: 250px;
     left: 50px;
 }
+
+.textCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
