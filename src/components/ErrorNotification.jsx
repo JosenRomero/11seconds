@@ -1,6 +1,7 @@
-import { Alert, Container } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { DeleteErrorMessageAction } from '../redux/actions/Actions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ErrorNotification = () => {
 
@@ -11,14 +12,27 @@ const ErrorNotification = () => {
         dispatch(DeleteErrorMessageAction());
     }
 
+    const showError = () => {
+        toast.error(errorMessage, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            toastId: "customId",
+            onClose: () => close()
+        });
+    }
+
     if (errorMessage === "") return
 
     return (
-        <Container className='mt-2'>
-            <Alert variant="danger" onClose={close} dismissible>
-                <Alert.Heading>{errorMessage}</Alert.Heading>
-            </Alert>
-        </Container>
+        <>
+            {errorMessage && showError()}
+            <ToastContainer />
+        </>
     );
 
 }
