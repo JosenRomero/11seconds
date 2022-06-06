@@ -39,7 +39,8 @@ export const updateUser = async (infoUser) => {
 export const logout = async () => {
     try {
         await signOut(auth);
-    } catch(err) {
-        console.log(err);
+    } catch(error) {
+        const message = errorMessageHandler(error.code);
+        return Promise.reject({message});
     }
 }

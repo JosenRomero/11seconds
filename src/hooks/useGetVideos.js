@@ -16,7 +16,7 @@ export const useGetVideos = () => {
         if (!videos) {
             getFirstPageData()
                 .then((data) => {
-                    if(data.lastVisible) {
+                    if(data?.lastVisible) {
                         setVideos(data.videos);
                         setLastKey(data.lastVisible);
                         setLoading(false);
@@ -35,7 +35,7 @@ export const useGetVideos = () => {
         if(lastKey) {
             getNextPageData(lastKey)
                 .then((data) => {
-                    if(data.lastVisible) {
+                    if(data?.lastVisible) {
                         setVideos([...videos, ...data.videos]);
                         setLastKey(data.lastVisible);
                         setLoading(false);

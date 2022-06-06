@@ -44,8 +44,12 @@ export const useUser = () => {
     }
 
     const logoutUser = async () => {
-        logout();
-        dispatch(addUserAction({}));
+        try {
+            await logout();
+            dispatch(addUserAction({}));
+        } catch(error) {
+            dispatch(addErrorMessageAction(error.message));
+        }
     }
 
     return {
