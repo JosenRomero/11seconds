@@ -1,14 +1,14 @@
-import { useSelector } from 'react-redux';
 import { Navigate }  from 'react-router-dom';
 import Loading from '../components/Loading';
+import { useAuth } from '../hooks/useAuth';
 
 const PublicRoute = ({children}) => {
 
-    const user = useSelector((state) => state.user); // reducers/index.js
+    const { isAuth } = useAuth();
 
-    if(user.email) return <Navigate to="/" />
+    if(isAuth === "signed in") return <Navigate to="/" />
 
-    if(!user.email) return <>{children}</>
+    if(isAuth === "signed out") return <>{children}</>
 
     return (
         <Loading />
